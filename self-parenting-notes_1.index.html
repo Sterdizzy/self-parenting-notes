@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Parenting — Notes for Journaling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1013;
+    --bg-elevated: #16181c;
+    --bg-card: #1a1d22;
+    --border: #272a31;
+    --border-soft: #1f2228;
+    --text: #e8e6e1;
+    --text-dim: #a09d96;
+    --text-faint: #6b6862;
+    --accent: #d4a574;        /* warm ochre */
+    --accent-dim: #8a6d4c;
+    --parent: #7ba7c9;        /* cool blue — Inner Parent */
+    --child: #d99170;         /* warm clay — Inner Child */
+    --danger: #c77070;
+    --good: #8fa876;
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "Inter Tight", -apple-system, sans-serif;
+    --mono: "JetBrains Mono", monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "ss01", "cv11";
+  }
+
+  /* layout: sidebar + main */
+  .layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+  }
+
+  /* sidebar */
+  aside {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--bg-elevated);
+    border-right: 1px solid var(--border);
+    padding: 2rem 1.5rem;
+  }
+
+  aside .brand {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.3rem;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin-bottom: 0.25rem;
+  }
+
+  aside .brand em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  aside .subtitle {
+    color: var(--text-faint);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 2rem;
+  }
+
+  aside nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  aside nav .nav-group {
+    color: var(--text-faint);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin: 1.2rem 0 0.3rem 0.5rem;
+  }
+  aside nav .nav-group:first-child { margin-top: 0; }
+
+  aside nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.88rem;
+    padding: 0.35rem 0.5rem;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+    line-height: 1.4;
+  }
+
+  aside nav a:hover {
+    color: var(--text);
+    background: var(--bg-card);
+  }
+
+  /* main */
+  main {
+    padding: 4rem 4rem 6rem;
+    max-width: 820px;
+  }
+
+  header.top {
+    margin-bottom: 3.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  header.top .kicker {
+    color: var(--accent);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 1rem;
+  }
+
+  header.top h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 2.8rem;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  header.top h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  header.top .lede {
+    color: var(--text-dim);
+    font-size: 1.02rem;
+    line-height: 1.6;
+    max-width: 60ch;
+  }
+
+  /* sections */
+  section {
+    margin-bottom: 4rem;
+    scroll-margin-top: 2rem;
+  }
+
+  section > h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 1.9rem;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  section > .section-meta {
+    color: var(--text-faint);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  h3 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    margin-top: 2.2rem;
+    margin-bottom: 0.8rem;
+    color: var(--text);
+  }
+
+  h4 {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-faint);
+    margin-top: 1.5rem;
+    margin-bottom: 0.6rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  p.dim { color: var(--text-dim); }
+
+  /* inline emphasis */
+  .parent { color: var(--parent); font-weight: 500; }
+  .child { color: var(--child); font-weight: 500; }
+
+  em.quote {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--text-dim);
+  }
+
+  /* callouts */
+  .callout {
+    background: var(--bg-card);
+    border-left: 2px solid var(--accent);
+    padding: 1.1rem 1.3rem;
+    margin: 1.4rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .callout .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+  }
+
+  .callout p:last-child { margin-bottom: 0; }
+
+  .callout.warn { border-left-color: var(--danger); }
+  .callout.warn .label { color: var(--danger); }
+  .callout.good { border-left-color: var(--good); }
+  .callout.good .label { color: var(--good); }
+
+  /* the thank you mantra — special treatment */
+  .mantra {
+    background: linear-gradient(180deg, var(--bg-card), var(--bg-elevated));
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.8rem 2rem;
+    margin: 2rem 0;
+    text-align: center;
+  }
+
+  .mantra .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--text-faint);
+    margin-bottom: 0.7rem;
+  }
+
+  .mantra .phrase {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.4rem;
+    line-height: 1.3;
+    color: var(--accent);
+    letter-spacing: -0.005em;
+  }
+
+  /* two-column parent/child comparison */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.4rem 0;
+  }
+
+  .compare .col {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.2rem 1.3rem;
+  }
+
+  .compare .col h5 {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+  }
+
+  .compare .col.parent-col { border-top: 2px solid var(--parent); }
+  .compare .col.parent-col h5 { color: var(--parent); }
+
+  .compare .col.child-col { border-top: 2px solid var(--child); }
+  .compare .col.child-col h5 { color: var(--child); }
+
+  .compare .col.neg { border-top-color: var(--danger); }
+  .compare .col.neg h5 { color: var(--danger); }
+
+  .compare .col.pos { border-top-color: var(--good); }
+  .compare .col.pos h5 { color: var(--good); }
+
+  .compare ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .compare li {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    padding: 0.35rem 0;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .compare li:last-child { border-bottom: none; }
+
+  /* numbered steps */
+  .steps {
+    counter-reset: step;
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
+  }
+
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 3.2rem;
+    margin-bottom: 1.5rem;
+    min-height: 2rem;
+  }
+
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: -0.1rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--accent-dim);
+    color: var(--accent);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .steps .step-title {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+    letter-spacing: -0.005em;
+  }
+
+  .steps p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin-bottom: 0;
+  }
+
+  /* checklist */
+  .checklist {
+    list-style: none;
+    padding: 0;
+    margin: 1.2rem 0;
+  }
+
+  .checklist li {
+    padding: 0.45rem 0 0.45rem 1.8rem;
+    position: relative;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .checklist li:last-child { border-bottom: none; }
+
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.9rem;
+    width: 0.55rem;
+    height: 0.55rem;
+    border: 1px solid var(--accent-dim);
+    border-radius: 50%;
+  }
+
+  /* needs grid */
+  .needs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  @media (max-width: 700px) {
+    .needs-grid { grid-template-columns: 1fr; }
+  }
+
+  .need-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.1rem 1.2rem;
+  }
+
+  .need-card h5 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+  }
+
+  .need-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .need-card li {
+    color: var(--text-dim);
+    font-size: 0.88rem;
+    padding: 0.15rem 0;
+    line-height: 1.45;
+  }
+
+  .need-card li::before {
+    content: "· ";
+    color: var(--text-faint);
+    margin-right: 0.3rem;
+  }
+
+  /* dialogue example */
+  .dialogue {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.3rem 1.5rem;
+    margin: 1.4rem 0;
+    font-family: var(--serif);
+    font-size: 0.98rem;
+    line-height: 1.6;
+  }
+
+  .dialogue .line {
+    padding: 0.35rem 0;
+    color: var(--text-dim);
+  }
+
+  .dialogue .line.p-line { color: var(--parent); }
+  .dialogue .line.c-line { color: var(--child); padding-left: 1.5rem; }
+  .dialogue .line .speaker {
+    display: inline-block;
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 500;
+    margin-right: 0.8rem;
+    opacity: 0.7;
+  }
+
+  /* pull quote */
+  blockquote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.35rem;
+    line-height: 1.45;
+    color: var(--text);
+    padding: 1.5rem 0 1.5rem 2rem;
+    margin: 2rem 0;
+    border-left: 1px solid var(--accent);
+    letter-spacing: -0.01em;
+  }
+
+  /* question bank */
+  .q-group {
+    margin-bottom: 2rem;
+  }
+
+  .q-group .q-label {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .q-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .q-list li {
+    font-family: var(--serif);
+    font-size: 1.02rem;
+    line-height: 1.45;
+    color: var(--text-dim);
+    padding: 0.55rem 0 0.55rem 1.8rem;
+    position: relative;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .q-list li:last-child { border-bottom: none; }
+
+  .q-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    top: 0.55rem;
+    color: var(--accent-dim);
+    font-family: var(--sans);
+  }
+
+  /* simple hr */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border-soft);
+    margin: 2.5rem 0;
+  }
+
+  /* foot note */
+  footer.bottom {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-soft);
+    color: var(--text-faint);
+    font-size: 0.82rem;
+    line-height: 1.55;
+  }
+
+  /* mobile */
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+    aside {
+      position: static;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+    main { padding: 2.5rem 1.5rem 4rem; }
+    header.top h1 { font-size: 2.1rem; }
+    .compare { grid-template-columns: 1fr; }
+  }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent-dim); }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- SIDEBAR NAVIGATION -->
+  <aside>
+    <div class="brand">The Self-<em>Parenting</em> Program</div>
+    <div class="subtitle">Notes for Journaling</div>
+
+    <nav>
+      <div class="nav-group">Foundations</div>
+      <a href="#core">The Core Idea</a>
+      <a href="#two-selves">The Two Inner Selves</a>
+      <a href="#four-responses">The Four Responses</a>
+      <a href="#responsibility">Who's Responsible</a>
+
+      <div class="nav-group">The Practice</div>
+      <a href="#session-format">The Session Format</a>
+      <a href="#mantra">The Mantra</a>
+      <a href="#why-30">Why 30 Minutes</a>
+      <a href="#first-months">The First Three Months</a>
+
+      <div class="nav-group">Working With It</div>
+      <a href="#conflict">Resolving Inner Conflicts</a>
+      <a href="#bashings">Inner Bashings</a>
+      <a href="#problem-sessions">When Sessions Feel Off</a>
+      <a href="#thinking-needs">Thinking Needs</a>
+
+      <div class="nav-group">Needs Reference</div>
+      <a href="#needs">The Four Categories</a>
+
+      <div class="nav-group">Question Bank</div>
+      <a href="#questions">Sample Questions to Ask</a>
+
+      <div class="nav-group">Reminders</div>
+      <a href="#reminders">Things to Keep Close</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <header class="top">
+      <div class="kicker">Reading Companion</div>
+      <h1>Notes for <em>journaling</em> through<br>the Self-Parenting Program</h1>
+      <p class="lede">Pollard's core idea is strange at first and then obvious: there are two voices talking inside you all day, and one of them is parenting the other the same way you were parented. These notes are arranged to be glanceable while you write — skim a section, return to your page, come back when you need the next piece.</p>
+    </header>
+
+    <!-- ============ FOUNDATIONS ============ -->
+
+    <section id="core">
+      <h2>The Core Idea</h2>
+      <div class="section-meta">Foundations · §1</div>
+
+      <p>Inside your mind there is a constant conversation happening just beneath conscious awareness. Pollard calls these "Inner Conversations." They're as normal as breathing. Everyone has them. They are the real substrate of what you experience as thinking and feeling.</p>
+
+      <p>The twist is that these conversations are not a single voice — they're a dialogue between two distinct personalities: an <span class="parent">Inner Parent</span> and an <span class="child">Inner Child</span>. Each has its own character, its own moods. They talk to each other minute to minute.</p>
+
+      <p class="dim">The way your Inner Parent treats your Inner Child is your <strong>Self-Parenting style</strong>. You absorbed it from your caretakers before age seven — without choice, without censorship. It became automatic and unconscious. Today it runs whether you notice it or not.</p>
+
+      <blockquote>
+        You treat the Inner Child inside your mind in exactly the same way you were treated as a child.
+      </blockquote>
+
+      <p>That style can be positive or negative, or (for most people) a tangled mix. You didn't design it and it isn't your fault. But it is now your responsibility, because you're the only one who can change it.</p>
+
+      <div class="callout">
+        <div class="label">Prompt for your page</div>
+        <p>What is a line or attitude my mother or father had that I catch myself repeating — not to others, but to myself, inside?</p>
+      </div>
+    </section>
+
+    <section id="two-selves">
+      <h2>The Two Inner Selves</h2>
+      <div class="section-meta">Foundations · §2</div>
+
+      <div class="compare">
+        <div class="col parent-col">
+          <h5>Inner Parent</h5>
+          <ul>
+            <li>The internal voice built from what you absorbed from your outer parents before age seven.</li>
+            <li>Rational, decision-making, evaluative. The "should" voice.</li>
+            <li>Strengths: teacher, guide, steady presence, decision-maker.</li>
+            <li>Weaknesses: quick to judge, to lecture, to warn. Can be petty, perfectionist, threatening. Makes life decisions without asking the Child how it feels.</li>
+            <li>Has the leadership role — whether it wants it or not.</li>
+          </ul>
+        </div>
+        <div class="col child-col">
+          <h5>Inner Child</h5>
+          <ul>
+            <li>Your emotional core. A separate, childlike personality with its own enthusiasms, needs, desires.</li>
+            <li>Connected to the five senses — what sees, hears, touches, tastes, smells.</li>
+            <li>The source of joy, creativity, intuition, spontaneity.</li>
+            <li>When treated well, becomes enthusiastic and cooperative.</li>
+            <li>When neglected or abused, "acts out" — rebels, sabotages, goes silent, withdraws, or performs as a fake adult.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="label">Key reframe</div>
+        <p>What looks like a "bad Inner Child" — the moods, the resistance, the sabotage — is almost always a <em>reaction</em> to neglect or abuse from the Inner Parent. Fix the Parent and the Child softens. This is the whole program in a sentence.</p>
+      </div>
+
+      <p class="dim">You cannot replace, divorce, or fire your Inner Child. The relationship is permanent. You are in it for life. The only question is whether you want it to be a happy one.</p>
+    </section>
+
+    <section id="four-responses">
+      <h2>The Four Responses</h2>
+      <div class="section-meta">Foundations · §3</div>
+
+      <p>Whatever your Inner Child says, you have exactly four possible ways to respond. Two are negative, two are positive.</p>
+
+      <div class="compare">
+        <div class="col neg">
+          <h5>Negative — Neglect</h5>
+          <ul>
+            <li>Ignore or not pay attention.</li>
+            <li>Fail to care for, overlook, forget.</li>
+            <li>The <em>passive</em> forms of harm — withholding, abandoning emotionally.</li>
+          </ul>
+        </div>
+        <div class="col neg">
+          <h5>Negative — Abuse</h5>
+          <ul>
+            <li>Handle wrongly. Hurt with maltreatment.</li>
+            <li>Attack with contemptuous, coarse, or insulting words.</li>
+            <li>The <em>active</em> forms — criticizing, shaming, belittling, shouting.</li>
+          </ul>
+        </div>
+        <div class="col pos">
+          <h5>Positive — Paying Attention</h5>
+          <ul>
+            <li>Careful observation or listening.</li>
+            <li>Noticing. Granting consideration.</li>
+            <li>This is the first rule. If you aren't listening, you can't respond well.</li>
+          </ul>
+        </div>
+        <div class="col pos">
+          <h5>Positive — Responding Appropriately</h5>
+          <ul>
+            <li><strong>Listen</strong> if the Child is sharing an observation.</li>
+            <li><strong>Teach</strong> if the Child is asking a question.</li>
+            <li><strong>Support</strong> if the Child is expressing a need.</li>
+          </ul>
+        </div>
+      </div>
+
+      <p>Most of the harm in a negative Self-Parenting style is not dramatic abuse. It's the slow, unnoticed neglect of an Inner Child whose quiet suggestions — <em class="quote">let's go this other way, let's bring an umbrella, I don't want that, I'm tired</em> — are never heard.</p>
+
+      <div class="callout">
+        <div class="label">Prompt for your page</div>
+        <p>In the last 24 hours, when did my Inner Child try to say something small and I talked over it? What did it want?</p>
+      </div>
+    </section>
+
+    <section id="responsibility">
+      <h2>Who's Responsible</h2>
+      <div class="section-meta">Foundations · §4</div>
+
+      <p>The Inner Parent has the leadership role. Always. The Inner Child isn't built for it — expecting the Child to lead is like letting a four-year-old run a nursery school.</p>
+
+      <p>If you experienced negative parenting as a child, <em>that</em> was not your fault. You trusted your caretakers and copied them completely because that's how infants are wired. But:</p>
+
+      <blockquote>Your Self-Parenting style has become your responsibility.</blockquote>
+
+      <p class="dim">No one outside you can change what's happening inside your Inner Conversations. You can be subject to external pressures, but the response to those pressures — the internal one — is yours alone.</p>
+
+      <div class="callout good">
+        <div class="label">A rule worth memorizing</div>
+        <p><strong>Make a promise, keep a promise.</strong> The Inner Child is connected to your five senses. It knows when you lie to it and when you don't follow through. You can fake it anywhere else in the world, but inside your Inner Conversations there is no lying. Trust is built slowly — and broken instantly.</p>
+      </div>
+    </section>
+
+    <!-- ============ THE PRACTICE ============ -->
+
+    <section id="session-format">
+      <h2>The Session Format</h2>
+      <div class="section-meta">The Practice · §5</div>
+
+      <p>The whole program rests on one act: sitting down for 30 minutes a day as the Inner Parent and asking your Inner Child questions, written out, in a specific format. The format is simple and it is also doing something specific — it is <em>muzzling the negative Inner Parent</em> so your Inner Child can finally speak without getting attacked mid-sentence.</p>
+
+      <h4>Before you start</h4>
+      <ul class="checklist">
+        <li>Sessions happen <strong>in the morning</strong>, right after you wake up. Everyone who has switched to morning has benefited. Evening sessions dissipate in sleep.</li>
+        <li>Use ruled 8½ × 11 paper in a dedicated binder. Not steno pads, not loose sheets, not a laptop.</li>
+        <li>Write the day, date, and time at the top. This is when timing starts.</li>
+        <li>Draw a line down the center. Left column = Inner Parent's questions. Right column = Inner Child's answers.</li>
+        <li>Begin with "The Opening" — spoken <strong>out loud</strong>.</li>
+      </ul>
+
+      <h4>During the session</h4>
+      <ul class="checklist">
+        <li>Ask every question <strong>out loud</strong> while writing it on the left side. Speak and write at the same pace — it slows your mind and clears space for the Child's response.</li>
+        <li>Drop to the next line. Write the Child's answer on the right, <strong>exactly as it says it</strong> — one word, a rant, a complaint about the session itself, an attack on you. Verbatim.</li>
+        <li>Then respond <strong>out loud</strong>: "Thank you, Inner Child, for telling me that." On the left side, drop a line and write a circled "TY". That's the whole response.</li>
+        <li>Do not soothe. Do not answer back. Do not "nurture" emotional answers — during the first three months, this is actually negative Self-Parenting. The only response is thank-you.</li>
+        <li>If you catch yourself mentally reacting as the Parent while the Child is answering, apologize out loud, write the apology in full on the left, and return to the question. Practitioners apologize 10–20 times a session and that's fine — awareness is the win.</li>
+        <li>If you catch yourself daydreaming, same thing: apologize out loud, write it down, continue.</li>
+      </ul>
+
+      <h4>The 30-minute rule</h4>
+      <ul class="checklist">
+        <li>Every session is exactly 30 minutes. No more, no less.</li>
+        <li>If you run out of time before finishing the questions, stop. Pick up there tomorrow.</li>
+        <li>If you finish early, keep asking: "Inner Child, is there anything else you want to talk about?" Thank the answer. Repeat until time is up.</li>
+        <li>Your Inner Child may beg to quit early. Don't. The full half-hour is what tells it you care. Quitting early — even at its suggestion — signals that something else matters more.</li>
+      </ul>
+
+      <h4>After the session</h4>
+      <ul class="checklist">
+        <li>Read the closing out loud. Session officially ends.</li>
+        <li>For the first three months: <strong>don't</strong> try to do impromptu dialogues with your Inner Child during the day. Let the session integrate. Spontaneous "Inner Child work" outside sessions almost always becomes negative Inner Parent work in disguise.</li>
+        <li>True Inner Conflicts outside sessions are an exception — see §9.</li>
+      </ul>
+    </section>
+
+    <section id="mantra">
+      <h2>The Mantra</h2>
+      <div class="section-meta">The Practice · §6</div>
+
+      <p>Whatever your Inner Child says — a one-word answer, a flood of grief, a furious attack on you, an answer that dodges the question — your only reply is:</p>
+
+      <div class="mantra">
+        <div class="label">Say it out loud, write "TY" on the page</div>
+        <div class="phrase">"Thank you, Inner Child, for telling me that."</div>
+      </div>
+
+      <p>This is not politeness. It is the mechanism of the entire program. It does three things at once: it grants dignity to whatever was said, it prevents the Inner Parent from leaping in to correct or soothe, and it is — for many Inner Children — the first time in their life that they have been heard without being edited.</p>
+
+      <div class="callout">
+        <div class="label">When the Child won't answer</div>
+        <p>"I don't want to answer that" <em>is</em> an answer. It's just not the one you wanted. Thank it and move on. Don't push. A practitioner who pressed too hard once got this from her Child a few days later, casually: <em class="quote">"You didn't think, just because you've done a few sessions with me, that I was going to trust you completely yet, did you?"</em></p>
+      </div>
+    </section>
+
+    <section id="why-30">
+      <h2>Why 30 Minutes</h2>
+      <div class="section-meta">The Practice · §7</div>
+
+      <p>Ten minutes isn't enough — the opening alone takes two. Three times a day is almost impossible to maintain. An hour is too much to commit to daily and creates a crash if you drop back to thirty. Thirty is the point where the practice is substantial but sustainable.</p>
+
+      <p class="dim">Most practitioners report that the half-hour they spend with their Inner Child gives them back two extra hours of energy during the day. If you "can't find" thirty minutes, your negative Inner Parent is hiding two hours from you.</p>
+
+      <div class="callout">
+        <div class="label">A test</div>
+        <p>If a friend came to you and said "I don't have time to pay attention to my child," what would you think? That is exactly what "I don't have time to do sessions" means.</p>
+      </div>
+    </section>
+
+    <section id="first-months">
+      <h2>The First Three Months</h2>
+      <div class="section-meta">The Practice · §8</div>
+
+      <p>The first ninety days are doing three things simultaneously, whether you see it happening or not:</p>
+
+      <ol class="steps">
+        <li>
+          <div class="step-title">Building trust</div>
+          <p>Before sessions, your Inner Child knew you weren't listening. Attention is love, as far as it's concerned. Thirty minutes of your precious time is evidence that it matters.</p>
+        </li>
+        <li>
+          <div class="step-title">Establishing consistency</div>
+          <p>The Child has seen you start and abandon things before. Ninety days is roughly how long it takes for it to grudgingly believe this one is different.</p>
+        </li>
+        <li>
+          <div class="step-title">Creating awareness</div>
+          <p>Which voice is which isn't always obvious at first. You may realize two or three times during the first months that what you thought was your Inner Child was actually your Inner Parent — or vice versa. That disorientation is part of the progress.</p>
+        </li>
+      </ol>
+
+      <h4>Purging — what to expect early</h4>
+      <p>When some people first sit down, the Inner Child has been waiting so long that it erupts. One practitioner's Child opened with: <em class="quote">"Where the HELL have you been all these years?"</em> This is normal. The format is designed to hold this kind of release. Your job is to listen, write it down, and say thank you.</p>
+
+      <h4>When the Inner Child sounds like a Parent</h4>
+      <p>If your outer parents were weak or dysfunctional (as with alcoholic households), you may have been forced to take the adult role early. Your Inner Child will often sound more like a Parent than your Inner Parent does. Don't try to fix this. Keep doing sessions. Over time, both voices naturally settle into their proper roles — the over-responsible Child becomes more childlike, the weak Parent strengthens.</p>
+
+      <blockquote>A beginning Self-Parenting student is a beginning Self-Parenting student. You cannot do three months of practice in three weeks.</blockquote>
+    </section>
+
+    <!-- ============ WORKING WITH IT ============ -->
+
+    <section id="conflict">
+      <h2>Resolving Inner Conflicts</h2>
+      <div class="section-meta">Working With It · §9</div>
+
+      <p>An Inner Conflict is when your two selves are pulling in <strong>mutually exclusive directions</strong> — both wants cannot be met at the same time. Signs it's happening: pressure headaches, reluctance to do something you normally enjoy, a sudden minor illness, inability to make a simple decision, a loop of racing thoughts.</p>
+
+      <p>The process has eight steps. It's demanding but effective.</p>
+
+      <ol class="steps">
+        <li>
+          <div class="step-title">Recognize the conflict</div>
+          <p>Catch the physical, emotional, and mental signature of it as early as possible. The sooner you name it, the sooner you can work it.</p>
+        </li>
+        <li>
+          <div class="step-title">Write it out, split-page, exactly as you hear it</div>
+          <p>Draw a line down the middle. Start writing what one voice is saying, word for word — profanity, insults, whatever. Switch sides when the other voice responds. A real conflict can take 45–90 minutes to write out. It will feel like minutes. The writing itself dissolves some of the charge.</p>
+        </li>
+        <li>
+          <div class="step-title">Fill out the Master Statement and list both sets of needs</div>
+          <p>"My Inner Child wants to ____ and my Inner Parent wants to ____." If the two halves are not mutually opposing, you don't have a conflict — you have an Inner Bashing (see §10). If they are, list out every specific need of each self on a new two-column sheet.</p>
+        </li>
+        <li>
+          <div class="step-title">Both selves agree to a Win/Win outcome</div>
+          <p>This is often the hardest step. Each side believes the other must lose. Sometimes only the Inner Parent can hold the faith that both can win. Without this agreement, the remaining steps won't work.</p>
+        </li>
+        <li>
+          <div class="step-title">Brainstorm every possible solution</div>
+          <p>List solutions — reasonable ones, selfish ones, crazy ones, ones that help only one side. The point is creative motion. Generating many options thaws the stuckness.</p>
+        </li>
+        <li>
+          <div class="step-title">Choose a mutually acceptable option</div>
+          <p>From the pile, something will emerge that both selves can get behind — a Win/Win, or a compromise both agree is the best available right now.</p>
+        </li>
+        <li>
+          <div class="step-title">Both selves put the solution in motion</div>
+          <p>Follow through on whatever specific actions the solution requires.</p>
+        </li>
+        <li>
+          <div class="step-title">Evaluate workability and satisfaction</div>
+          <p>Many conflicts dissolve so easily after this that you wonder what the fight was about. If the solution doesn't hold, repeat the eight steps.</p>
+        </li>
+      </ol>
+
+      <div class="callout">
+        <div class="label">Principle</div>
+        <p>Externalizing inner turmoil onto paper causes it to weaken or resolve. This is the engine underneath the whole technique.</p>
+      </div>
+    </section>
+
+    <section id="bashings">
+      <h2>Inner Bashings</h2>
+      <div class="section-meta">Working With It · §10</div>
+
+      <p>Sometimes you feel all the signs of a conflict — the mental loop, the body tension, the charged Inner Conversation — but when you fill out the Master Statement, there's no actual conflict of needs. Instead you find blame, name-calling, vague recurring complaints with no subject.</p>
+
+      <p class="dim">This is an <strong>Inner Bashing</strong>. It's not a problem to be solved; it's a pattern to be stopped.</p>
+
+      <div class="dialogue">
+        <div class="line p-line"><span class="speaker">Parent</span>You are lazy and stupid. If you would work harder we could get out of this job.</div>
+        <div class="line c-line"><span class="speaker">Child</span>It's not my fault. If you had done what I said six months ago we'd already be working over at — . <em>You're</em> the one who's lazy and stupid.</div>
+        <div class="line p-line"><span class="speaker">Parent</span>That wasn't my fault. You should have reminded me.</div>
+        <div class="line c-line"><span class="speaker">Child</span>(Various name-calling)</div>
+      </div>
+
+      <p>If you read this to a support group and no one can tell what either side actually wants, you're bashing. The conversation isn't a conflict — it's a loop.</p>
+
+      <div class="callout good">
+        <div class="label">How to stop it</div>
+        <p>Shut up as the Inner Parent. Listen. Whatever the Child says — even if it's calling you a bad Inner Parent — the only response is "Thank you, Inner Child, for telling me that." The endless loop needs one side to stop feeding it. That side is the Parent. Most Inner Bashings are, under the surface, the inner version of a nagging mother who never stops commenting — only when she goes quiet can the child live in peace.</p>
+      </div>
+    </section>
+
+    <section id="problem-sessions">
+      <h2>When Sessions Feel Off</h2>
+      <div class="section-meta">Working With It · §11</div>
+
+      <h4>The pre-loaded question</h4>
+      <p>The most common reason sessions go flat: the Inner Parent asks questions that already assume what the Child feels. <em class="quote">"Inner Child, what is it about Bill you miss the most?"</em> assumes the Child misses Bill — maybe it doesn't care about Bill at all. The Child, wanting to please, makes up feelings.</p>
+
+      <p>Also avoid opening with <em class="quote">"How are you <strong>feeling</strong> today?"</em> — the emphasis manufactures feelings on demand.</p>
+
+      <h4>Better openers</h4>
+      <ul class="checklist">
+        <li>"Inner Child, how are you today?"</li>
+        <li>"Inner Child, how are you doing right now?"</li>
+        <li>"Inner Child, is there anything you want to tell me before we begin?"</li>
+      </ul>
+
+      <h4>The three-question open</h4>
+      <p>When you need a way into the session, use this sequence. It lets the Child choose the subject, then lets it define the angle, then surfaces the need underneath.</p>
+
+      <div class="dialogue">
+        <div class="line p-line"><span class="speaker">1</span>Inner Child, what would you like to talk about today?</div>
+        <div class="line c-line"><span class="speaker">Child</span>(response)</div>
+        <div class="line p-line"><span class="speaker">2</span>TY. Inner Child, what about (the thing it named)?</div>
+        <div class="line c-line"><span class="speaker">Child</span>(response)</div>
+        <div class="line p-line"><span class="speaker">3</span>TY. Inner Child, what is your need?</div>
+        <div class="line c-line"><span class="speaker">Child</span>(response)</div>
+      </div>
+
+      <h4>On boring sessions</h4>
+      <p>Occasional boring sessions are fine. A pattern of them means the Inner Parent is stagnating. Try a module, read the recommended books, have a support group member read your sessions and give feedback. If you let boredom persist, the Child eventually rebels and sessions become difficult instead of pleasurable.</p>
+    </section>
+
+    <section id="thinking-needs">
+      <h2>Thinking Needs</h2>
+      <div class="section-meta">Working With It · §12</div>
+
+      <p>Your Inner Child communicates for exactly three reasons:</p>
+
+      <ol class="steps">
+        <li>
+          <div class="step-title">To share an observation or viewpoint</div>
+          <p>Light disclosures. "What a beautiful day." "That teacher was so kind." Or warnings and intuitions: "I don't trust this guy." "This contract's too important — take it to a lawyer." Listen. That's the whole response.</p>
+        </li>
+        <li>
+          <div class="step-title">To ask a question / request information</div>
+          <p>The Child wants to know something. The appropriate response is to find the answer and teach it.</p>
+        </li>
+        <li>
+          <div class="step-title">To express a need</div>
+          <p>Support it — either by meeting the need yourself, or by making a plan with the Child to meet it. This is where most of the real work lives.</p>
+        </li>
+      </ol>
+
+      <h4>When the Child's statement is vague</h4>
+      <p>Sometimes the Child says something like <em class="quote">"You never do anything for me."</em> This isn't really sharing — it's a disguised need, and it's too vague to act on. Use two questions to clarify:</p>
+
+      <div class="dialogue">
+        <div class="line p-line"><span class="speaker">Parent</span>Inner Child, do you have a physical, emotional, mental, or social need?</div>
+        <div class="line c-line"><span class="speaker">Child</span>Emotional.</div>
+        <div class="line p-line"><span class="speaker">Parent</span>Inner Child, what is your (emotional) need?</div>
+        <div class="line c-line"><span class="speaker">Child</span>I want to take an acting class so I can become famous.</div>
+      </div>
+
+      <p class="dim">What could have been days of ambient resentment becomes clear in two questions. The Child also learns, over time, to state needs more directly.</p>
+    </section>
+
+    <!-- ============ NEEDS REFERENCE ============ -->
+
+    <section id="needs">
+      <h2>The Four Categories of Needs</h2>
+      <div class="section-meta">Reference · §13</div>
+
+      <p>Every need of the Inner Child falls into one of four categories. Not "spiritual" — Pollard is explicit that seeking a "spiritual" solution to a physical, emotional, mental, or social need is just a disguised form of neglect by a weak Inner Parent. The real need is always in one of these four.</p>
+
+      <div class="needs-grid">
+        <div class="need-card">
+          <h5>Physical</h5>
+          <ul>
+            <li>Food — and the right food, eaten when hungry, stopped when full</li>
+            <li>Water</li>
+            <li>Sleep and rest</li>
+            <li>Physical comfort (temperature, clothing, posture, the bathroom)</li>
+            <li>Order and protection (safe home, safe neighborhood, safe workplace)</li>
+            <li>Fresh air and movement</li>
+            <li>Touch and physical affection</li>
+          </ul>
+        </div>
+
+        <div class="need-card">
+          <h5>Emotional</h5>
+          <ul>
+            <li>To have fun and play</li>
+            <li>A positive home life</li>
+            <li>To express opinions and be heard</li>
+            <li>Creative expression</li>
+            <li>Privacy / alone time — specifically, uninterrupted attention from the Inner Parent</li>
+            <li>Love, acceptance, being nurtured</li>
+          </ul>
+        </div>
+
+        <div class="need-card">
+          <h5>Mental</h5>
+          <ul>
+            <li>To explore new ideas and experiences</li>
+            <li>To be taught — before taking on something new</li>
+            <li>To learn and keep learning</li>
+            <li>Curiosity and intellectual stimulation</li>
+            <li>Fantasy, imagination, daydreaming</li>
+          </ul>
+        </div>
+
+        <div class="need-card">
+          <h5>Social</h5>
+          <ul>
+            <li>Positive relationships with people you actually enjoy</li>
+            <li>Community, belonging</li>
+            <li>To contribute, to be useful to others</li>
+            <li>To be seen and acknowledged by others, not just by yourself</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="label">Prompt for your page</div>
+        <p>Which of the four categories have I been neglecting most this week? What's one specific need inside that category I can name right now?</p>
+      </div>
+    </section>
+
+    <!-- ============ QUESTION BANK ============ -->
+
+    <section id="questions">
+      <h2>Sample Questions to Ask</h2>
+      <div class="section-meta">Question Bank · §14</div>
+
+      <p>After the first two weeks of scripted questions in the original <em>Self-Parenting</em> book, you make up your own. Pollard's instruction: keep them open-ended, base them on your actual daily life, and let the Inner Child have room to answer however it wants. Every question is followed by writing down the answer exactly as heard and saying "Thank you, Inner Child, for telling me that" — out loud — before the next one.</p>
+
+      <p class="dim">These are starting points. Pull from the category that matches where you are that morning, or just scan until one catches.</p>
+
+      <div class="q-group">
+        <div class="q-label">Opening the session · when you don't know where to start</div>
+        <ul class="q-list">
+          <li>Inner Child, how are you today?</li>
+          <li>Inner Child, how are you doing right now?</li>
+          <li>Inner Child, how's it going?</li>
+          <li>Inner Child, is there anything you want to tell me before we begin?</li>
+          <li>Inner Child, what would you like to talk about today?</li>
+          <li>Inner Child, what's on your mind this morning?</li>
+        </ul>
+      </div>
+
+      <div class="q-group">
+        <div class="q-label">The three-question sequence · when you want structure</div>
+        <ul class="q-list">
+          <li>Inner Child, what would you like to talk about today?</li>
+          <li>Inner Child, what about (the thing it just named)?</li>
+          <li>Inner Child, what is your need?</li>
+        </ul>
+      </div>
+
+      <div class="q-group">
+        <div class="q-label">Daily life · the "getting to know you" kind</div>
+        <ul class="q-list">
+          <li>Inner Child, what would you like for breakfast?</li>
+          <li>Inner Child, what would you like to wear today?</li>
+          <li>Inner Child, what would you like to do Friday night?</li>
+          <li>Inner Child, how did you enjoy your weekend?</li>
+          <li>Inner Child, what was the best part of yesterday?</li>
+          <li>Inner Child, what was the hardest part of yesterday?</li>
+          <li>Inner Child, how do you feel about that upcoming meeting / interview / deadline?</li>
+          <li>Inner Child, what should we do about ___ ?</li>
+          <li>Inner Child, what are your ideas about ___ ?</li>
+          <li>Inner Child, what do you recommend concerning ___ ?</li>
+        </ul>
+      </div>
+
+      <div class="q-group">
+        <div class="q-label">Physical needs · body-level check-in</div>
+        <ul class="q-list">
+          <li>Inner Child, are you hungry right now? What would taste good?</li>
+          <li>Inner Child, when was the last time you felt really rested?</li>
+          <li>Inner Child, is there anywhere in the body that's uncomfortable today?</li>
+          <li>Inner Child, are we drinking enough water?</li>
+          <li>Inner Child, do you want to move or be still today?</li>
+          <li>Inner Child, is there something about where we live or work that doesn't feel safe or comfortable?</li>
+          <li>Inner Child, what would feel really good to your body this week?</li>
+        </ul>
+      </div>
+
+      <div class="q-group">
+        <div class="q-label">Emotional needs · heart-level check-in</div>
+        <ul class="q-list">
+          <li>Inner Child, what do you need more of right now?</li>
+          <li>Inner Child, what do you need less of right now?</li>
+          <li>Inner Child, when did you last have real fun?</li>
+          <li>Inner Child, is there anything you've been wanting to say but haven't?</li>
+          <li>Inner Child, are you lonely?</li>
+          <li>Inner Child, what would a good home feel like to you?</li>
+          <li>Inner Child, is there someone you've been missing?</li>
+          <li>Inner Child, what do you wish I would stop doing?</li>
+          <li>Inner Child, what do you wish I would start doing?</li>
+        </ul>
+      </div>
+
+      <div class="q-group">
+        <div class="q-label">Mental needs · curiosity and learning</div>
+        <ul class="q-list">
+          <li>Inner Child, is there something you're curious about lately?</li>
+          <li>Inner Child, what would you like to learn next?</li>
+          <li>Inner Child, is there somewhere you want to go?</li>
+          <li>Inner Child, what's a project you'd actually be excited about?</li>
+          <li>Inner Child, is there a book, movie, or place that's been on your mind?</li>
+          <li>Inner Child, what are you bored with?</li>
+        </ul>
+      </div>
+
+      <div class="q-group">
+        <div class="q-label">Social needs · people and belonging</div>
+        <ul class="q-list">
+          <li>Inner Child, who do you want to spend more time with?</li>
+          <li>Inner Child, who drains you lately?</li>
+          <li>Inner Child, is there a friendship you'd like to rebuild?</li>
+          <li>Inner Child, is there someone you want to apologize to?</li>
+          <li>Inner Child, is there someone you want an apology from?</li>
+          <li>Inner Child, do you feel like you belong somewhere?</li>
+        </ul>
+      </div>
+
+      <div class="q-group">
+        <div class="q-label">Work and direction · for an Inner Parent who's been running the show alone</div>
+        <ul class="q-list">
+          <li>Inner Child, how do you feel about the work we do?</li>
+          <li>Inner Child, what part of the week do you dread?</li>
+          <li>Inner Child, what part of the week do you look forward to?</li>
+          <li>Inner Child, if we could change one thing about how we work, what would it be?</li>
+          <li>Inner Child, do you feel like we're going in the right direction?</li>
+          <li>Inner Child, are we saying yes to things we should say no to?</li>
+          <li>Inner Child, are we being honest about what we want?</li>
+        </ul>
+      </div>
+
+      <div class="q-group">
+        <div class="q-label">Relationship with me as Inner Parent</div>
+        <ul class="q-list">
+          <li>Inner Child, am I listening to you lately?</li>
+          <li>Inner Child, where have I been letting you down?</li>
+          <li>Inner Child, is there a promise I made that I haven't kept?</li>
+          <li>Inner Child, do you trust me right now?</li>
+          <li>Inner Child, is there something you want to forgive me for, or haven't yet?</li>
+          <li>Inner Child, what would show you that I'm here?</li>
+        </ul>
+      </div>
+
+      <div class="q-group">
+        <div class="q-label">When something's off but you can't name it</div>
+        <ul class="q-list">
+          <li>Inner Child, do you have a physical, emotional, mental, or social need right now?</li>
+          <li>Inner Child, what is the need?</li>
+          <li>Inner Child, what's the feeling underneath this?</li>
+          <li>Inner Child, when did this feeling start?</li>
+          <li>Inner Child, does this remind you of something older?</li>
+        </ul>
+      </div>
+
+      <div class="callout warn">
+        <div class="label">Careful with these</div>
+        <p>Avoid "How are you <strong>feeling</strong> today?" as an opener — the emphasis on feelings manufactures feelings. Avoid pre-loaded questions like "Why are you afraid of ___?" when you don't actually know the Child is afraid. Avoid deep probing questions about early childhood abuse in the first three months — the trust isn't built yet, and the need to probe is almost always the Inner Parent's need, not the Child's.</p>
+      </div>
+    </section>
+
+    <!-- ============ REMINDERS ============ -->
+
+    <section id="reminders">
+      <h2>Things to Keep Close</h2>
+      <div class="section-meta">Reminders</div>
+
+      <div class="callout good">
+        <div class="label">The whole program in one line</div>
+        <p>Self-Parenting is Inner Parent work, not Inner Child work. You are not trying to change the Child. You are becoming an Inner Parent who loves, supports, and nurtures — and the Child changes on its own in response.</p>
+      </div>
+
+      <div class="callout">
+        <div class="label">Attention equals love</div>
+        <p>There is no other proof your Inner Child accepts. Not talk, not intention, not insight. Only attention, delivered consistently over calendar time.</p>
+      </div>
+
+      <div class="callout">
+        <div class="label">Little things count most</div>
+        <p>The breakthroughs rarely come from resolving the "big issues." They come from noticing that your Inner Child wanted the red shoes, or one sugar instead of two, or to drive a different way home. The quantum level of Self-Parenting is in these small discoveries — when <em>you</em> find them yourself, inside your own Inner Conversations. Being told the same thing from the outside has almost none of the same power.</p>
+      </div>
+
+      <div class="callout warn">
+        <div class="label">Don't</div>
+        <p>Don't press for buried memories. Don't interrogate. Don't try to "get to the bottom" of an issue the Child hasn't offered. Don't skip sessions because nothing interesting is happening — that's when the trust is being built. And don't try to do "Inner Child work" outside the session format during the first three months. It almost always becomes negative Inner Parent work in disguise.</p>
+      </div>
+
+      <blockquote>
+        The foundation of your relationships with others is the quality of the relationship you have with yourself.
+      </blockquote>
+
+      <p class="dim">As the Self-Parenting relationship improves, outer relationships improve at the same rate. Some dysfunctional ones simply fall away without ceremony — you notice afterward that they're gone.</p>
+    </section>
+
+    <footer class="bottom">
+      <p>Notes drawn from <em>The Self-Parenting Program: Core Guidelines for the Self-Parenting Practitioner</em> by John K. Pollard, III. Paraphrased and condensed for personal journaling reference. Keep this open next to your page — jump to whatever section matches where you are right now. The practice itself is what does the work; everything here is just a map.</p>
+    </footer>
+
+  </main>
+</div>
+</body>
+</html>
